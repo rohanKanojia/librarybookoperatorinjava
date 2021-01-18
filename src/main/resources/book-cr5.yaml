@@ -1,0 +1,8 @@
+apiVersion: testing.fabric8.io/v1alpha1
+kind: Book
+metadata:
+  name: java-the-complete-reference
+spec:
+  title: "Java: The Complete Reference"
+  author: "Herbert Schildt"
+  isbn: "1260440230"

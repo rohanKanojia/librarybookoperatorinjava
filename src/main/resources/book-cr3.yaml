@@ -1,0 +1,8 @@
+apiVersion: testing.fabric8.io/v1alpha1
+kind: Book
+metadata:
+  name: high-performance-java-persistence
+spec:
+  title: "High-Performance Java Persistence"
+  author: "Vlad Mihalcea"
+  isbn: "973022823X"

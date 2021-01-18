@@ -1,0 +1,8 @@
+apiVersion: testing.fabric8.io/v1alpha1
+kind: Book
+metadata:
+  name: kubernetes-in-action
+spec:
+  title: "Kubernetes In Action"
+  author: "Marko Luksa"
+  isbn: "1617293725"

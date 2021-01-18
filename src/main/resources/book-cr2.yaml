@@ -1,0 +1,8 @@
+apiVersion: testing.fabric8.io/v1alpha1
+kind: Book
+metadata:
+  name: head-first-java
+spec:
+  title: "Head First Java"
+  author: "Kathy Sierra"
+  isbn: "0596004656"

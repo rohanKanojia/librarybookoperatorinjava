@@ -1,0 +1,8 @@
+apiVersion: testing.fabric8.io/v1alpha1
+kind: Book
+metadata:
+  name: thinking-in-java
+spec:
+  title: "Thinking in Java"
+  author: "Bruce Eckel"
+  isbn: "0130273635"
