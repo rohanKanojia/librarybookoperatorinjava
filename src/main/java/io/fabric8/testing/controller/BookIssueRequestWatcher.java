@@ -1,13 +1,16 @@
 package io.fabric8.testing.controller;
 
-import io.fabric8.kubernetes.api.model.KubernetesResourceList;
+import io.fabric8.kubernetes.client.KubernetesClientException;
 import io.fabric8.kubernetes.client.Watcher;
-import io.fabric8.kubernetes.client.WatcherException;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
 import io.fabric8.testing.model.v1alpha1.Book;
 import io.fabric8.testing.model.v1alpha1.BookIssueRequest;
+import io.fabric8.testing.model.v1alpha1.BookIssueRequestList;
+import io.fabric8.testing.model.v1alpha1.BookList;
 import io.fabric8.testing.model.v1alpha1.BookStatus;
+import io.fabric8.testing.model.v1alpha1.DoneableBook;
+import io.fabric8.testing.model.v1alpha1.DoneableBookIssueRequest;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,10 +23,10 @@ public class BookIssueRequestWatcher implements Watcher<BookIssueRequest> {
     private static final Logger LOG = Logger.getLogger(BookIssueRequestWatcher.class);
 
     @Inject
-    MixedOperation<Book, KubernetesResourceList<Book>, Resource<Book>> bookClient;
+    MixedOperation<Book, BookList, DoneableBook, Resource<Book, DoneableBook>> bookClient;
 
     @Inject
-    MixedOperation<BookIssueRequest, KubernetesResourceList<BookIssueRequest>, Resource<BookIssueRequest>> bookIssueRequest;
+    MixedOperation<BookIssueRequest, BookIssueRequestList, DoneableBookIssueRequest, Resource<BookIssueRequest, DoneableBookIssueRequest>> bookIssueRequest;
 
     @Named("namespace")
     String namespace;
@@ -35,7 +38,7 @@ public class BookIssueRequestWatcher implements Watcher<BookIssueRequest> {
     }
 
     @Override
-    public void onClose(WatcherException e) {
+    public void onClose(KubernetesClientException e) {
         if (e != null) {
             LOG.info("on close");
             e.printStackTrace();
@@ -122,12 +125,12 @@ public class BookIssueRequestWatcher implements Watcher<BookIssueRequest> {
 
     private Book updateBookLabels(Book book) {
         book.getMetadata().setLabels(Collections.singletonMap("issued", "true"));
-        return bookClient.inNamespace(namespace).withName(book.getMetadata().getName()).edit(p -> book);
+        return bookClient.inNamespace(namespace).withName(book.getMetadata().getName()).patch(book);
     }
 
     private Book removeBookIssuedLabel(Book book) {
         book.getMetadata().setLabels(Collections.singletonMap("issued", "false"));
-        return bookClient.inNamespace(namespace).withName(book.getMetadata().getName()).edit(p -> book);
+        return bookClient.inNamespace(namespace).withName(book.getMetadata().getName()).patch(book);
     }
 
     private Book updatedBookStatus(Book book, boolean isIssued, String issueTo) {

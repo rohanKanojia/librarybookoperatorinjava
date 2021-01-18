@@ -6,6 +6,10 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
 import io.fabric8.testing.model.v1alpha1.Book;
 import io.fabric8.testing.model.v1alpha1.BookIssueRequest;
+import io.fabric8.testing.model.v1alpha1.BookIssueRequestList;
+import io.fabric8.testing.model.v1alpha1.BookList;
+import io.fabric8.testing.model.v1alpha1.DoneableBook;
+import io.fabric8.testing.model.v1alpha1.DoneableBookIssueRequest;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -19,10 +23,10 @@ public class BookOperator {
     KubernetesClient k8sClient;
 
     @Inject
-    MixedOperation<Book, KubernetesResourceList<Book>, Resource<Book>> bookClient;
+    MixedOperation<Book, BookList, DoneableBook, Resource<Book, DoneableBook>> bookClient;
 
     @Inject
-    MixedOperation<BookIssueRequest, KubernetesResourceList<BookIssueRequest>, Resource<BookIssueRequest>> bookIssueRequestClient;
+    MixedOperation<BookIssueRequest, BookIssueRequestList, DoneableBookIssueRequest, Resource<BookIssueRequest, DoneableBookIssueRequest>> bookIssueRequestClient;
 
     @Inject
     BookWatcher bookWatcher;

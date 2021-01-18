@@ -1,7 +1,7 @@
 package io.fabric8.testing.controller;
 
+import io.fabric8.kubernetes.client.KubernetesClientException;
 import io.fabric8.kubernetes.client.Watcher;
-import io.fabric8.kubernetes.client.WatcherException;
 import io.fabric8.testing.model.v1alpha1.Book;
 import org.jboss.logging.Logger;
 
@@ -18,7 +18,7 @@ public class BookWatcher implements Watcher<Book> {
     }
 
     @Override
-    public void onClose(WatcherException e) {
+    public void onClose(KubernetesClientException e) {
         if (e != null) {
             LOG.info("on close");
             e.printStackTrace();
