@@ -1,50 +1,22 @@
-# quarkus-kubernetes-client-extension-demo project
+# Simple Kubernetes Operator demonstrating Library Management
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This is a simple demo Kubernetes Operator written to mimic Library Management using [Quarkus Fabric8 Kubernetes Client Extension](https://quarkus.io/guides/kubernetes-client). It operates on the following Custom Resources:
+- Book
+- BookIssueRequest
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Scenarios Considered:
+- User creates a BookIssueRequest which updates the requested Book setting it's issued status to `true` and updating issuedTo section in Book's status. 
 
-## Running the application in dev mode
+- On Deleting any `BookIssueRequest`, `Book` is updated again and is marked available for issue(by setting issued status to `false`
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+- Any update in `BookIssueRequest` object would update specified `Book` resource in case it's different from previous value
+
+Both `Book` and `BookIssueRequest` CustomResources are watched in specified namespace and Operator tries to issue/free any book which is requested via adding/deleting any `BookIssueRequest`.
+
+## How to Build
+You can build it as any standard maven project
+```shell
+mvn clean install
 ```
 
-## Packaging and running the application
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-kubernetes-client-extension-demo-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application is now runnable using `java -jar target/quarkus-kubernetes-client-extension-demo-1.0.0-SNAPSHOT-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/quarkus-kubernetes-client-extension-demo-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
-
-# RESTEasy JAX-RS
-
-<p>A Hello World RESTEasy resource</p>
-
-Guide: https://quarkus.io/guides/rest-json
