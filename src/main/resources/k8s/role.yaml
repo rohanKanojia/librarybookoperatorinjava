@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: library-reader-writer
+rules:
+- apiGroups:
+  - testing.fabric8.io
+  resources: 
+  - books 
+  - bookissuerequests
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch 
