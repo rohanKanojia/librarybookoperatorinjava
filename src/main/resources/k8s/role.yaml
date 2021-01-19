@@ -7,6 +7,7 @@ rules:
   - testing.fabric8.io
   resources: 
   - books 
+  - books/status
   - bookissuerequests
   verbs:
   - create
