@@ -1,7 +1,7 @@
 apiVersion: testing.fabric8.io/v1alpha1
 kind: BookIssueRequest
 metadata:
-  name: book-issuerequest1
+  name: book-issuerequest2
 spec:
   to: "Marc Nuri"
   name: "effective-java"

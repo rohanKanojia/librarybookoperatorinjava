@@ -19,4 +19,29 @@ You can build it as any standard maven project
 mvn clean install
 ```
 
+## Installing Custom Resource Definitions
+As an administrator, you would need to create these CRDs in your Kubernetes cluster:
+```shell
+kubectl create -f src/main/resources/k8s/crds/book-crd.yaml
+kubectl create -f src/main/resources/k8s/crds/bookissuerequest-crd.yaml
+```
 
+### How to Run
+Make sure that you have access to a Kubernetes Cluster(minikube or crc). You can start your Operator locally using standard Quarkus Maven Plugin goals:
+```shell
+mvn quarkus:dev
+```
+
+### Deploying to Kubernetes using Eclipse JKube
+In order to deploy this Operator to Kubernetes, we will be using [Eclipse JKube](https://github.com/eclipse/jkube). First we would need to deploy `Role`, `RoleBinding` and `ServiceAccount` for our Operator to Kubernetes
+
+```shell
+kubectl create -f src/main/resources/k8s/role.yaml
+kubectl create -f src/main/resources/k8s/rolebinding.yaml
+kubectl create -f src/main/resources/k8s/serviceaccount.yaml
+```
+
+Then you should be able to deploy the Operator using this command:
+```shell
+mvn k8s:deploy -PKubernetes
+```
