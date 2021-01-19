@@ -17,6 +17,7 @@
     <quarkus-plugin.version>1.11.0.Final</quarkus-plugin.version>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <jkube.version>1.0.2</jkube.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -120,6 +121,46 @@
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
+    </profile>
+    <profile>
+      <id>Kubernetes</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>kubernetes-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>build</goal>
+                  <goal>resource</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>OpenShift</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>openshift-maven-plugin</artifactId>
+            <version>${jkube.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>build</goal>
+                  <goal>resource</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
